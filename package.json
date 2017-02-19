@@ -1,0 +1,27 @@
+{
+  "name": "news-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hornsten/news-scraper.git"
+  },
+  "author": "hornsten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hornsten/news-scraper/issues"
+  },
+  "homepage": "https://github.com/hornsten/news-scraper#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "cheerio": "^0.22.0",
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.8.3",
+    "request": "^2.79.0"
+  }
+}
