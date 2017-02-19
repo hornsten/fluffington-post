@@ -22,7 +22,7 @@ db.once('open', function() {
 
 // Main route (simple Hello World Message)
 router.get("/", function(req, res) {
-    res.send("Hello world!");
+    res.send('Hello, World!');
 });
 
 router.get("/all", function(req, res) {
@@ -32,7 +32,8 @@ router.get("/all", function(req, res) {
         if (err) {
             return handleError(err);
         } else {
-            res.json(articles);
+            // res.json(articles);
+            res.render("index", { articles: articles });
         }
     });
 });
@@ -69,6 +70,7 @@ router.get("/scrape", function(req, res) {
                     else {
                         // Log the saved data
                         console.log(art);
+                        // res.render("index", { articles: art });
                     }
                 });
             }
