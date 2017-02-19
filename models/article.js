@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 
 var articleSchema = new Schema({
 
-    title: String,
-    link: String
+    title: { type: String, unique: true },
+    link: { type: String, unique: true }
 });
 
 var Article = mongoose.model('Article', articleSchema);
