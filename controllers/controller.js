@@ -40,15 +40,15 @@ router.get("/all", function(req, res) {
 // Scrape data from one site and place it into the mongodb db
 router.get("/scrape", function(req, res) {
     // Make a request for the news section of ycombinator
-    request("https://news.ycombinator.com/", function(error, response, html) {
+    request("https://www.reddit.com/r/aww/", function(error, response, html) {
         // Load the html body from request into cheerio
         var $ = cheerio.load(html);
         // For each element with a "title" class
-        $(".title").each(function(i, element) {
+        $("p.title").each(function(i, element) {
             // Save the text of each link enclosed in the current element
-            var title = $(this).children("a").text();
+            var title = $(this).text();
             // Save the href value of each link enclosed in the current element
-            var link = $(this).children("a").attr("href");
+            var link = $(element).children().attr("href");
 
             // If this title element had both a title and a link
             if (title && link) {
