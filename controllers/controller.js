@@ -33,7 +33,7 @@ router.get("/saved", function(req, res) {
             return handleError(err);
         } else {
             // res.json(articles);
-            res.render("index", { articles: articles });
+            res.render("saved", { articles: articles });
         }
     });
 });
@@ -50,37 +50,30 @@ router.get("/scraped", function(req, res) {
         // For each element with a "title" class
         $("p.title").each(function(i, element) {
             // Save the text of each link enclosed in the current element
-            var title = $(this).text();
+            var title = $(this).text().replace(/ *\([^)]*\) */g, "");
             // Save the href value of each link enclosed in the current element
-            var link = $(element).children().attr("href");
+
+            // if link starts with /r, it's an internal reddit link...
+            //add "https://www.reddit.com" to make it work in my site!
+            var link;
+            var preLink = "https://www.reddit.com";
+
+            var linkCheck = $(element).children().attr("href");
+
+            if (linkCheck.charAt(0) === "/") {
+
+                link = preLink + linkCheck;
+            } else {
+                link = linkCheck;
+            }
 
             // If this title element had both a title and a link
             if (title && link) {
-                // Save the data in the scrapedData db
-
-                // var art = new Article({
-                //     title: title,
-                //     link: link
-                // });
 
                 result.push({
                     title: title,
                     link: link
                 })
-
-                // art.save(function(err, art) {
-                //     // If there's an error during this query
-                //     if (err) {
-                //         // Log the error
-                //         return console.log(err);
-                //     }
-                //     // Otherwise,
-                //     else {
-                //         // Log the saved data
-                //         console.log(art);
-                //         res.render("index", { articles: art });
-                //     }
-                // });
             }
 
         });
@@ -89,12 +82,10 @@ router.get("/scraped", function(req, res) {
         res.render("index", { articles: result });
     });
 
-    // This will send a "Scrape Complete" message to the browser
-
-
 });
 
 router.post("/", function(req, res) {
+
 
     var art = new Article({
         title: req.body.title,
@@ -111,11 +102,62 @@ router.post("/", function(req, res) {
         else {
             // Log the saved data
             console.log(art);
-            res.redirect("/");
+
         }
     });
-
+    res.redirect("/scraped");
 })
+
+router.get('/articles/:id', function(req, res) {
+
+    Article.findOne({ '_id': req.params.id })
+
+    .populate('comment')
+
+    .exec(function(err, result) {
+
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("saved", { articles: result });
+        }
+    });
+});
+
+// Article.findByIdAndUpdate(id, { $set: { comment: 'large' }}, { new: true }, function (err, tank) {
+//   if (err) return handleError(err);
+//   res.send(Article);
+// });
+
+
+// add or replace comment and save to db
+router.post('/articles/:id', function(req, res) {
+    // create a new note and pass the req.body to the entry.
+    var comment = new Comment(req.body);
+
+    comment.save(function(err, result) {
+        // log any errors
+        if (err) {
+            console.log(err);
+        } else {
+
+            Article.findOneAndUpdate({ '_id': req.params.id }, { 'comment': result._id })
+                // execute the above query
+                .exec(function(err, result) {
+                    // log any errors
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        // or send the document to the browser
+                        res.render("saved", { articles: result });
+                    }
+                });
+        }
+    });
+});
+
+
+
 
 
 module.exports = router;

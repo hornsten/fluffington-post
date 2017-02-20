@@ -27,7 +27,7 @@
 <div class="jumbotron">
   <div class="container text-center">
     <h1>Mongo Scraper!</h1>
-    <p><strong>Reddit <em>Awwwww</em> Edition</strong></p>
+    <p>Saved Articles</p>
   </div>
 </div>
 {{!--
@@ -45,14 +45,15 @@
       <h3 class="panel-title">{{this.title}}</h3>
     </div>
     <div class="panel-body">
-      <a target="_blank" href={{this.link}}>{{this.link}}</a>
+      <a href={{this.link}} target="_blank">{{this.link}}</a>
     </div>
+    {{!--
     <form method="POST" action="/">
       <input type="hidden" name="title" value="{{this.title}}">
       <input type="hidden" name="link" value="{{this.link}}">
       <br>
       <button class="btn btn-default" type="submit">Save</button>
-    </form>
+    </form> --}}
   </div>
   {{/each}}
 </div>
