@@ -20,12 +20,12 @@ db.once('open', function() {
     console.log('We are connected!');
 });
 
-// Main route (simple Hello World Message)
 router.get("/", function(req, res) {
-    res.send('Hello, World!');
-});
+    res.render("index");
+})
 
-router.get("/all", function(req, res) {
+// Saved articles
+router.get("/saved", function(req, res) {
     var query = Article.find({});
 
     query.exec(function(err, articles) {
@@ -39,7 +39,8 @@ router.get("/all", function(req, res) {
 });
 
 // Scrape data from one site and place it into the mongodb db
-router.get("/scrape", function(req, res) {
+router.get("/scraped", function(req, res) {
+
     // Make a request for the aww section of reddit
     request("https://www.reddit.com/r/aww/", function(error, response, html) {
         // Load the html body from request into cheerio
@@ -95,7 +96,12 @@ router.get("/scrape", function(req, res) {
 
 router.post("/", function(req, res) {
 
-    article.save(function(err, article) {
+    var art = new Article({
+        title: req.body.title,
+        link: req.body.link
+    });
+
+    art.save(function(err, art) {
         // If there's an error during this query
         if (err) {
             // Log the error
@@ -104,8 +110,8 @@ router.post("/", function(req, res) {
         // Otherwise,
         else {
             // Log the saved data
-            console.log(article);
-            // res.render("index", { articles: art });
+            console.log(art);
+            res.redirect("/");
         }
     });
 
