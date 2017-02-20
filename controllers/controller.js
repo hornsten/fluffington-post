@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var Article = require("../models/article.js");
+// var Comments = require("../models/article.js");
+var Comment = require("../models/comment.js");
 var bodyParser = require("body-parser");
 // var methodOverride = require("method-override");
 // var app = express();
@@ -49,8 +51,10 @@ router.get("/scraped", function(req, res) {
         var result = [];
         // For each element with a "title" class
         $("p.title").each(function(i, element) {
+
             // Save the text of each link enclosed in the current element
             var title = $(this).text().replace(/ *\([^)]*\) */g, "");
+
             // Save the href value of each link enclosed in the current element
 
             // if link starts with /r, it's an internal reddit link...
@@ -67,12 +71,18 @@ router.get("/scraped", function(req, res) {
                 link = linkCheck;
             }
 
+            var image = $(element).children().attr("data-href-url");
+            // replace(/^https?\:\/\//i, "")
+            // replace(/^http:\/\//i, 'https://')
+
+
             // If this title element had both a title and a link
             if (title && link) {
 
                 result.push({
                     title: title,
-                    link: link
+                    link: link,
+                    image: image
                 })
             }
 
@@ -132,8 +142,11 @@ router.get('/articles/:id', function(req, res) {
 
 // add or replace comment and save to db
 router.post('/articles/:id', function(req, res) {
-    // create a new note and pass the req.body to the entry.
-    var comment = new Comment(req.body);
+    // create a new comment and pass the req.body to the entry.
+    var comment = new Comment({
+        title: req.body.title,
+        body: req.body.body
+    });
 
     comment.save(function(err, result) {
         // log any errors
@@ -141,7 +154,7 @@ router.post('/articles/:id', function(req, res) {
             console.log(err);
         } else {
 
-            Article.findOneAndUpdate({ '_id': req.params.id }, { 'comment': result._id })
+            Article.findOneAndUpdate({ '_id': req.body.id }, { 'comment': result._id })
                 // execute the above query
                 .exec(function(err, result) {
                     // log any errors

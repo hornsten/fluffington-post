@@ -43,6 +43,17 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">{{this.title}}</h3>
+      <h3 class="panel-comment">{{this.comment}}</h3>
+      <form method="POST" action="/articles/:id">
+        {{!--
+        <input type="hidden" name="title" value="{{this.title}}">
+        <input type="hidden" name="link" value="{{this.link}}"> --}}
+        <input type="hidden" name="id" value="{{this._id}}">
+        <br>
+        <input type="text" name="title">
+        <input type="textarea" name="body">
+        <button class="btn btn-default" type="submit">Add a comment</button>
+      </form>
     </div>
     <div class="panel-body">
       <a href={{this.link}} target="_blank">{{this.link}}</a>
