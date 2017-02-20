@@ -40,6 +40,23 @@ router.get("/saved", function(req, res) {
     });
 });
 
+
+router.get("/comments/:id", function(req, res) {
+
+    Comment.findOne({ '_id': req.params.id })
+
+    .exec(function(err, result) {
+
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result);
+            // res.render("saved", { articles: result });
+            res.redirect('/saved');
+        }
+    });
+})
+
 // Scrape data from one site and place it into the mongodb db
 router.get("/scraped", function(req, res) {
 
@@ -129,10 +146,14 @@ router.get('/articles/:id', function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("saved", { articles: result });
+            console.log('comment saved');
+            // res.render("saved", { articles: result });
+            res.redirect('/');
         }
     });
+
 });
+
 
 // Article.findByIdAndUpdate(id, { $set: { comment: 'large' }}, { new: true }, function (err, tank) {
 //   if (err) return handleError(err);
@@ -162,7 +183,8 @@ router.post('/articles/:id', function(req, res) {
                         console.log(err);
                     } else {
                         // or send the document to the browser
-                        res.render("saved", { articles: result });
+                        // res.render("saved", { articles: result });
+                        res.redirect('/');
                     }
                 });
         }

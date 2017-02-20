@@ -45,9 +45,6 @@
       <h3 class="panel-title">{{this.title}}</h3>
       <h3 class="panel-comment">{{this.comment}}</h3>
       <form method="POST" action="/articles/:id">
-        {{!--
-        <input type="hidden" name="title" value="{{this.title}}">
-        <input type="hidden" name="link" value="{{this.link}}"> --}}
         <input type="hidden" name="id" value="{{this._id}}">
         <br>
         <input type="text" name="title">
@@ -65,6 +62,13 @@
       <br>
       <button class="btn btn-default" type="submit">Save</button>
     </form> --}}
+    <form action="/comments/{{this.comment}}">
+      {{!--
+      <input type="hidden" name="title" value="{{this.title}}"> --}}
+      <input type="hidden" name="comment" value="{{this.comment}}">
+      <br>
+      <a href="/comments/{{this.comment}}" class="btn btn-default">See Comment</a>
+    </form>
   </div>
   {{/each}}
 </div>
