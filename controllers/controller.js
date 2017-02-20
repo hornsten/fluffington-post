@@ -40,10 +40,12 @@ router.get("/all", function(req, res) {
 
 // Scrape data from one site and place it into the mongodb db
 router.get("/scrape", function(req, res) {
-    // Make a request for the news section of ycombinator
+    // Make a request for the aww section of reddit
     request("https://www.reddit.com/r/aww/", function(error, response, html) {
         // Load the html body from request into cheerio
+
         var $ = cheerio.load(html);
+        var result = [];
         // For each element with a "title" class
         $("p.title").each(function(i, element) {
             // Save the text of each link enclosed in the current element
@@ -55,31 +57,59 @@ router.get("/scrape", function(req, res) {
             if (title && link) {
                 // Save the data in the scrapedData db
 
-                var art = new Article({
+                // var art = new Article({
+                //     title: title,
+                //     link: link
+                // });
+
+                result.push({
                     title: title,
                     link: link
-                });
+                })
 
-                art.save(function(err, art) {
-                    // If there's an error during this query
-                    if (err) {
-                        // Log the error
-                        return console.log(err);
-                    }
-                    // Otherwise,
-                    else {
-                        // Log the saved data
-                        console.log(art);
-                        // res.render("index", { articles: art });
-                    }
-                });
+                // art.save(function(err, art) {
+                //     // If there's an error during this query
+                //     if (err) {
+                //         // Log the error
+                //         return console.log(err);
+                //     }
+                //     // Otherwise,
+                //     else {
+                //         // Log the saved data
+                //         console.log(art);
+                //         res.render("index", { articles: art });
+                //     }
+                // });
             }
+
         });
+        console.log("you have " + result.length + " results");
+
+        res.render("index", { articles: result });
     });
 
     // This will send a "Scrape Complete" message to the browser
-    res.send("Scrape Complete");
+
+
 });
+
+router.post("/", function(req, res) {
+
+    article.save(function(err, article) {
+        // If there's an error during this query
+        if (err) {
+            // Log the error
+            return console.log(err);
+        }
+        // Otherwise,
+        else {
+            // Log the saved data
+            console.log(article);
+            // res.render("index", { articles: art });
+        }
+    });
+
+})
 
 
 module.exports = router;
