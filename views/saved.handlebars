@@ -30,8 +30,8 @@
     <p>Saved Articles</p>
   </div>
 </div>
-{{!--
 <div id="panel-container" class="container">
+  {{!--
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Oh, noes! You have no articles yet.</h3>
@@ -39,7 +39,7 @@
     <div class="panel-body">
       <h4>Boo.</h4>
     </div>
-  </div> --}} {{#each articles}}
+  </div> --}} {{!-- end of dummy panel --}} {{#each articles}}
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">{{this.title}}</h3>
@@ -49,26 +49,20 @@
         <br>
         <input type="text" name="title">
         <input type="textarea" name="body">
-        <button class="btn btn-default" type="submit">Add a comment</button>
+        <button id="submit-comment" class="btn btn-default" type="submit">Add a comment</button>
       </form>
     </div>
     <div class="panel-body">
-      <a href={{this.link}} target="_blank">{{this.link}}</a>
+      <a href={{this.link}} target="_blank">{{this.link}}</a> {{!--
+      <form method="POST" action="/">
+        <input type="hidden" name="title" value="{{this.title}}">
+        <input type="hidden" name="link" value="{{this.link}}">
+        <br>
+        <button class="btn btn-default" type="submit">Save</button>
+      </form> --}}
+      <div id="{{this.comment}}"></div>
+      <a data-button="{{this.comment}}" class="btn btn-default comment-btn">Get comments</a>
     </div>
-    {{!--
-    <form method="POST" action="/">
-      <input type="hidden" name="title" value="{{this.title}}">
-      <input type="hidden" name="link" value="{{this.link}}">
-      <br>
-      <button class="btn btn-default" type="submit">Save</button>
-    </form> --}}
-    <form action="/comments/{{this.comment}}">
-      {{!--
-      <input type="hidden" name="title" value="{{this.title}}"> --}}
-      <input type="hidden" name="comment" value="{{this.comment}}">
-      <br>
-      <a href="/comments/{{this.comment}}" class="btn btn-default">See Comment</a>
-    </form>
   </div>
   {{/each}}
 </div>

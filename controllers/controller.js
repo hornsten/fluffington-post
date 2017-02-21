@@ -40,19 +40,31 @@ router.get("/saved", function(req, res) {
     });
 });
 
+router.get("/comments", function(req, res) {
+    var query = Comment.find({});
+
+    query.exec(function(err, comments) {
+        if (err) {
+            return handleError(err);
+
+        } else {
+            res.render('saved', { comments: comments });
+        }
+    })
+})
 
 router.get("/comments/:id", function(req, res) {
 
     Comment.findOne({ '_id': req.params.id })
 
-    .exec(function(err, result) {
+    .exec(function(err, comment) {
 
         if (err) {
             console.log(err);
         } else {
-            console.log(result);
-            // res.render("saved", { articles: result });
-            res.redirect('/saved');
+            console.log(comment);
+            res.json(comment);
+            // res.render('saved', { comment: comment });
         }
     });
 })
@@ -169,6 +181,7 @@ router.post('/articles/:id', function(req, res) {
         body: req.body.body
     });
 
+
     comment.save(function(err, result) {
         // log any errors
         if (err) {
@@ -184,6 +197,7 @@ router.post('/articles/:id', function(req, res) {
                     } else {
                         // or send the document to the browser
                         // res.render("saved", { articles: result });
+                        console.log(result);
                         res.redirect('/');
                     }
                 });
