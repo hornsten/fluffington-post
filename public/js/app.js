@@ -1,14 +1,14 @@
 $(document).ready(function() {
 
 
-    $('.comment-button').on('click', function() {
+    // $('.comment-button').on('click', function() {
 
-        var currentURL = window.location.origin;
-        var commentId = $(this).attr('data-button');
+    //     var currentURL = window.location.origin;
+    //     var commentId = $(this).attr('data-button');
 
-        console.log('hey');
+    //     console.log('hey');
 
-    })
+    // })
 
 
     $(".comment-btn").click(function(event) {
@@ -23,11 +23,11 @@ $(document).ready(function() {
         $.get(currentURL + "/comments/" + commentId, function(data) {
             console.log(data);
 
-            $('#' + commentId).html('<h3>' + data.body + '<br>');
-            $('#' + commentId).append('<h5>by ' + data.title);
+            $('#' + commentId).html('<h3>' + data.body + '<br>' + '<h4>' + data.title);
 
 
         })
 
+        $('#modal-' + commentId).modal('show');
     });
 });
