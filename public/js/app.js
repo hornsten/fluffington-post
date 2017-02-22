@@ -23,7 +23,7 @@ $(document).ready(function() {
         $.get(currentURL + "/comments/" + commentId, function(data) {
             console.log(data);
 
-            $('#' + commentId).html('<h3>' + data.body + '<br>' + '<h4>' + data.title);
+            $('#' + commentId).html('<h3>' + data.body + '<br>' + '<h4>written by ' + data.title);
 
 
         })

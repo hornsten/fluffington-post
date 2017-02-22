@@ -31,28 +31,14 @@
   </div>
 </div>
 <div id="panel-container" class="container">
-  {{!--
-  <div class="panel panel-default">
+  {{#if articles.length}} {{#each articles}}
+  <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title">Oh, noes! You have no articles yet.</h3>
-    </div>
-    <div class="panel-body">
-      <h4>Boo.</h4>
-    </div>
-  </div> --}} {{!-- end of dummy panel --}} {{#each articles}}
-  <div class="panel panel-default">
-    <div class="panel-heading">
+      <a data-button="{{this.comment}}" class="btn btn-info comment-btn pull-right">Comments</a>
       <h3 class="panel-title">{{this.title}}</h3>
     </div>
     <div class="panel-body">
-      <a href={{this.link}} target="_blank">{{this.link}}</a> {{!--
-      <form method="POST" action="/">
-        <input type="hidden" name="title" value="{{this.title}}">
-        <input type="hidden" name="link" value="{{this.link}}">
-        <br>
-        <button class="btn btn-default" type="submit">Save</button>
-      </form> --}}
-      <a data-button="{{this.comment}}" class="btn btn-default comment-btn">Get comments</a>
+      <a href={{this.link}} target="_blank">{{this.link}}</a>
     </div>
   </div>
   <div class="modal fade" id="modal-{{this.comment}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -63,13 +49,13 @@
           <h4 class="modal-title" id="myModalLabel">Comment Id: {{this.comment}}</h4>
         </div>
         <div class="modal-body">
-          <div id="{{this.comment}}"></div>
+          <div id="{{this.comment}}">No Comments Yet...</div>
           <form method="POST" action="/articles/:id">
             <input type="hidden" name="id" value="{{this._id}}">
             <br>
-            <input type="text" name="title">
-            <input type="textarea" name="body">
-            <button id="submit-comment" class="btn btn-default" type="submit">Add a comment</button>
+            <input class="form-control" type="text" placeholder="Username" name="title">
+            <input class="form-control" type="textarea" placeholder="Comment" name="body">
+            <button id="submit-comment" class="btn btn-info" type="submit">Add a comment</button>
           </form>
         </div>
         <div class="modal-footer">
@@ -79,5 +65,8 @@
       </div>
     </div>
   </div>
-  {{/each}}
+  {{/each}} {{else}}
+  <div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>No saved articles</div>
+  {{/if}}
 </div>

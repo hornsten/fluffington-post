@@ -62,9 +62,9 @@ router.get("/comments/:id", function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            console.log(comment);
+
             res.json(comment);
-            // res.render('saved', { comment: comment });
+
         }
     });
 })
@@ -166,13 +166,6 @@ router.get('/articles/:id', function(req, res) {
 
 });
 
-
-// Article.findByIdAndUpdate(id, { $set: { comment: 'large' }}, { new: true }, function (err, tank) {
-//   if (err) return handleError(err);
-//   res.send(Article);
-// });
-
-
 // add or replace comment and save to db
 router.post('/articles/:id', function(req, res) {
     // create a new comment and pass the req.body to the entry.
@@ -198,7 +191,7 @@ router.post('/articles/:id', function(req, res) {
                         // or send the document to the browser
                         // res.render("saved", { articles: result });
                         console.log(result);
-                        res.redirect('/');
+                        res.redirect('/saved');
                     }
                 });
         }

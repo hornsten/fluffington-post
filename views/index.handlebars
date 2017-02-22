@@ -30,30 +30,27 @@
     <p><strong>Reddit <em>Awwwww</em> Edition</strong></p>
   </div>
 </div>
-{{!--
-<div id="panel-container" class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Oh, noes! You have no articles yet.</h3>
-    </div>
-    <div class="panel-body">
-      <h4>Boo.</h4>
-    </div>
-  </div> --}} {{#each articles}}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{this.title}}</h3>
-    </div>
-    <div class="panel-body">
-      <a target="_blank" href={{this.link}}>{{this.link}}</a>
-      <img src="{{this.image}}" height="100" width="100" />
-    </div>
-    <form method="POST" action="/">
-      <input type="hidden" name="title" value="{{this.title}}">
-      <input type="hidden" name="link" value="{{this.link}}">
-      <br>
-      <button class="btn btn-default" type="submit">Save</button>
-    </form>
+{{#if articles.length}}
+<div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>You have found {{articles.length}} articles.</div>
+{{else}}
+<div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>No articles yet. Why don't you try scraping?</div>
+{{/if}} {{#each articles}}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{this.title}}</h3>
   </div>
-  {{/each}}
+  <div class="panel-body">
+    <a target="_blank" href={{this.link}}>{{this.link}}</a>
+    <img src="{{this.image}}" height="100" width="100" />
+  </div>
+  <form method="POST" action="/">
+    <input type="hidden" name="title" value="{{this.title}}">
+    <input type="hidden" name="link" value="{{this.link}}">
+    <br>
+    <button class="btn btn-default" type="submit">Save</button>
+  </form>
+</div>
+{{/each}}
 </div>
