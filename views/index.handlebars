@@ -36,22 +36,26 @@
 {{else}}
 <div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>No articles yet. Why don't you try scraping?</div>
-{{/if}} {{#each articles}}
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{this.title}}</h3>
+{{/if}} {{#grouped_each 3 articles}}
+<div class="row">
+  {{#each this}}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <a target="_blank" href={{this.link}}><img src="{{this.image}}" /></a>
+      <div class="caption">
+        <h3>{{this.title}}</h3>
+        <p>...</p>
+        <form method="POST" action="/">
+          <input type="hidden" name="title" value="{{this.title}}">
+          <input type="hidden" name="link" value="{{this.link}}">
+          <input type="hidden" name="image" value="{{this.image}}">
+          <br>
+          <button class="btn btn-default" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="panel-body">
-    <a target="_blank" href={{this.link}}>{{this.link}}</a>
-    <img src="{{this.image}}" />
-  </div>
-  <form method="POST" action="/">
-    <input type="hidden" name="title" value="{{this.title}}">
-    <input type="hidden" name="link" value="{{this.link}}">
-    <input type="hidden" name="image" value="{{this.image}}">
-    <br>
-    <button class="btn btn-default" type="submit">Save</button>
-  </form>
+  {{/each}}
 </div>
-{{/each}}
+{{/grouped_each}}
 </div>

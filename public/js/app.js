@@ -19,4 +19,7 @@ $(document).ready(function() {
 
         $('#modal-' + commentId).modal('show');
     });
+
+
+
 });
