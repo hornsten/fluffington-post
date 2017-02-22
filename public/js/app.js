@@ -1,16 +1,5 @@
 $(document).ready(function() {
 
-
-    // $('.comment-button').on('click', function() {
-
-    //     var currentURL = window.location.origin;
-    //     var commentId = $(this).attr('data-button');
-
-    //     console.log('hey');
-
-    // })
-
-
     $(".comment-btn").click(function(event) {
 
         event.preventDefault();
@@ -23,7 +12,7 @@ $(document).ready(function() {
         $.get(currentURL + "/comments/" + commentId, function(data) {
             console.log(data);
 
-            $('#' + commentId).html('<h3>' + data.body + '<br>' + '<h4>written by ' + data.title);
+            $('#' + commentId).html('<h3>' + data.body + '<br>' + '<h4>written by ' + data.username);
 
 
         })

@@ -27,7 +27,7 @@
 <div class="jumbotron">
   <div class="container text-center">
     <h1>Mongo Scraper!</h1>
-    <p><strong>Reddit <em>Awwwww</em> Edition</strong></p>
+    <p>HuffPost Cute Animals Edition</p>
   </div>
 </div>
 {{#if articles.length}}
@@ -43,11 +43,12 @@
   </div>
   <div class="panel-body">
     <a target="_blank" href={{this.link}}>{{this.link}}</a>
-    <img src="{{this.image}}" height="100" width="100" />
+    <img src="{{this.image}}" />
   </div>
   <form method="POST" action="/">
     <input type="hidden" name="title" value="{{this.title}}">
     <input type="hidden" name="link" value="{{this.link}}">
+    <input type="hidden" name="image" value="{{this.image}}">
     <br>
     <button class="btn btn-default" type="submit">Save</button>
   </form>

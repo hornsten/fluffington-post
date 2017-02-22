@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var commentSchema = new Schema({
-    title: String,
+    username: String,
     body: String
 
 });

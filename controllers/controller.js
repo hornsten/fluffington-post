@@ -4,7 +4,7 @@ var Article = require("../models/article.js");
 // var Comments = require("../models/article.js");
 var Comment = require("../models/comment.js");
 var bodyParser = require("body-parser");
-// var methodOverride = require("method-override");
+var methodOverride = require("method-override");
 // var app = express();
 var cheerio = require("cheerio");
 var mongoose = require("mongoose");
@@ -73,40 +73,21 @@ router.get("/comments/:id", function(req, res) {
 router.get("/scraped", function(req, res) {
 
     // Make a request for the aww section of reddit
-    request("https://www.reddit.com/r/aww/", function(error, response, html) {
+    request("http://www.huffingtonpost.com/news/cute-animals/", function(error, response, html) {
         // Load the html body from request into cheerio
 
         var $ = cheerio.load(html);
         var result = [];
         // For each element with a "title" class
-        $("p.title").each(function(i, element) {
+        $("div.entry.no_border").each(function(i, element) {
 
             // Save the text of each link enclosed in the current element
-            var title = $(this).text().replace(/ *\([^)]*\) */g, "");
-
-            // Save the href value of each link enclosed in the current element
-
-            // if link starts with /r, it's an internal reddit link...
-            //add "https://www.reddit.com" to make it work in my site!
-            var link;
-            var preLink = "https://www.reddit.com";
-
-            var linkCheck = $(element).children().attr("href");
-
-            if (linkCheck.charAt(0) === "/") {
-
-                link = preLink + linkCheck;
-            } else {
-                link = linkCheck;
-            }
-
-            var image = $(element).children().attr("data-href-url");
-            // replace(/^https?\:\/\//i, "")
-            // replace(/^http:\/\//i, 'https://')
-
+            var title = $(this).children("h3").children("a").text();
+            var link = $(this).find("a").attr("href");
+            var image = $(this).find("img").attr("longdesc");
 
             // If this title element had both a title and a link
-            if (title && link) {
+            if (title && link && image) {
 
                 result.push({
                     title: title,
@@ -128,7 +109,8 @@ router.post("/", function(req, res) {
 
     var art = new Article({
         title: req.body.title,
-        link: req.body.link
+        link: req.body.link,
+        image: req.body.image
     });
 
     art.save(function(err, art) {
@@ -170,7 +152,7 @@ router.get('/articles/:id', function(req, res) {
 router.post('/articles/:id', function(req, res) {
     // create a new comment and pass the req.body to the entry.
     var comment = new Comment({
-        title: req.body.title,
+        username: req.body.username,
         body: req.body.body
     });
 
@@ -198,6 +180,24 @@ router.post('/articles/:id', function(req, res) {
     });
 });
 
+router.delete("/articles/:id", function(req, res) {
+
+    Article.remove({ "_id": req.params.id }, function(err) {
+        if (err) return handleError(err);
+        // removed!
+    });
+    // res.redirect("/");
+    console.log('removed');
+
+});
+
+
+
+
+// Comment.remove({ "_id": req.params.id }, function(err) {
+//     if (err) return handleError(err);
+//     //removed
+// })
 
 
 
