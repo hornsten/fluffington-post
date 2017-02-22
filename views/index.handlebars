@@ -32,10 +32,10 @@
 </div>
 {{#if articles.length}}
 <div class="container">
-  <div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
+  <div id="length-alert" class="alert alert-info alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>You have found {{articles.length}} articles.</div>
   {{else}}
-  <div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
+  <div id="length-alert" class="alert alert-info alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>No articles yet. Why don't you try scraping?</div>
   {{/if}} {{#grouped_each 3 articles}}
   <div class="row">
