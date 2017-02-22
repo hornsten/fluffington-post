@@ -30,49 +30,52 @@
     <p>Saved Articles</p>
   </div>
 </div>
-<div id="panel-container" class="container">
-  {{#if articles.length}} {{#each articles}}
-  <div class="panel panel-info">
-    {{!--
-    <div>Id: {{this.id}}</div>
-    --}}
-    <div class="panel-heading">
-      <a data-button="{{this.comment}}" class="btn btn-info comment-btn pull-right">Comments</a>
-      <form action="/articles/{{this.id}}?_method=DELETE" method="POST">
-        <input type="hidden" name="id" value="{{this.id}}">
-        <button type="submit">Delete</button>
-      </form>
-      <h3 class="panel-title">{{this.title}}</h3>
-    </div>
-    <div class="panel-body">
-      <a href={{this.link}} target="_blank">{{this.link}}</a>
-    </div>
-  </div>
-  <div class="modal fade" id="modal-{{this.comment}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Comment Id: {{this.comment}}</h4>
-        </div>
-        <div class="modal-body">
-          <div id="{{this.comment}}">No Comments Yet...</div>
-          <form method="POST" action="/articles/:id">
-            <input type="hidden" name="id" value="{{this._id}}">
-            <br>
-            <input class="form-control" type="text" placeholder="Username" name="username">
-            <input class="form-control" type="textarea" placeholder="Comment" name="body">
-            <button id="submit-comment" class="btn btn-info" type="submit">Add a comment</button>
+<div class="container">
+  {{#if articles.length}}
+  <div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>You have {{articles.length}} saved articles.</div>
+  {{else}}
+  <div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Try saving some scraped articles!</div>
+  {{/if}} {{#grouped_each 3 articles}}
+  <div class="row">
+    {{#each this}}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <a target="_blank" href={{this.link}}><img src="{{this.image}}" /></a>
+        <div class="caption">
+          <h3>{{this.title}}</h3>
+          <a data-button="{{this.comment}}" class="btn btn-info comment-btn pull-right">Comments</a>
+          <form action="/articles/{{this.id}}?_method=DELETE" method="POST">
+            <input type="hidden" name="id" value="{{this.id}}">
+            <button type="submit">Delete</button>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+    <div class="modal fade" id="modal-{{this.comment}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Comment Id: {{this.comment}}</h4>
+          </div>
+          <div class="modal-body">
+            <div id="{{this.comment}}">No Comments Yet...</div>
+            <form method="POST" action="/articles/:id">
+              <input type="hidden" name="id" value="{{this._id}}">
+              <br>
+              <input class="form-control" type="text" placeholder="Username" name="username">
+              <input class="form-control" type="textarea" placeholder="Comment" name="body">
+              <button id="submit-comment" class="btn btn-info" type="submit">Add a comment</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}} {{/grouped_each}}
   </div>
-  {{/each}} {{else}}
-  <div id="length-alert" class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>No saved articles</div>
-  {{/if}}
 </div>
