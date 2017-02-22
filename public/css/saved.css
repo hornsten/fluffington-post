@@ -2,8 +2,12 @@
   padding: 20px;
 }
 
+img {
+  border-radius: 10px;
+}
+
 .thumbnail {
-  border-radius: 16px;
+  border-radius: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
@@ -18,21 +22,31 @@
   /*border-radius: 0;*/
 }
 
-.navbar,
-.jumbotron {
+
+/*.navbar {
   background: transparent;
   border: none;
   color: white;
+}*/
+
+.jumbotron {
+  background-image: url("../img/wallpaper.jpg");
+  background-repeat: none;
+  background-size: cover;
+  /*color: white;*/
 }
 
-body {
-  background-image: linear-gradient(to top, #5ee7df 0%, #b490ca 100%);
+body,
+html {
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
 }
 
-a.navbar-brand,
+
+/*a.navbar-brand,
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:focus,
 .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>li>a {
   color: white;
 }
+*/
