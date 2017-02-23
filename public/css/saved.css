@@ -12,9 +12,7 @@ img {
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
-.thumbnail:hover,
-.alert:hover,
-.navbar:hover {
+.thumbnail:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
@@ -31,15 +29,27 @@ img {
 }*/
 
 .jumbotron {
+  padding-top: 0;
   background-image: url("../img/wallpaper.jpg");
   background-repeat: none;
   background-size: cover;
+  padding-bottom: 100px;
   /*color: white;*/
 }
 
-body,
-html {
+body {
   background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+  height: 0px;
+}
+
+html {
+  background: #ade0f9;
+}
+
+.navbar-default {
+  border: none;
+  background: transparent;
+  margin-bottom: 50px;
 }
 
 
@@ -49,5 +59,4 @@ html {
 .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>li>a {
   color: white;
-}
-*/
+}*/
