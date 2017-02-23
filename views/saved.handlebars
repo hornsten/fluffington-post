@@ -45,7 +45,7 @@
         <a target="_blank" href={{this.link}}><img src="{{this.image}}" /></a>
         <div class="caption">
           <h3>{{this.title}}</h3>
-          <a data-button="{{this.comment}}" class="btn btn-info comment-btn">Comments</a>
+          <a data-button="{{this._id}}" class="btn btn-info comment-btn">Comments</a>
           <form action="/articles/{{this.id}}?_method=DELETE" method="POST">
             <input type="hidden" name="id" value="{{this.id}}">
             <button class="btn btn-warning" type="submit">Delete</button>
@@ -53,15 +53,15 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="modal-{{this.comment}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="modal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Comment Id: {{this.comment}}</h4>
+            <h4 class="modal-title" id="myModalLabel">Article Id: {{this._id}}</h4>
           </div>
           <div class="modal-body">
-            <div id="{{this.comment}}">No Comments Yet...</div>
+            <div id="{{this._id}}"></div>
             <form method="POST" action="/articles/:id">
               <input type="hidden" name="id" value="{{this._id}}">
               <br>

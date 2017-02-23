@@ -9,8 +9,12 @@ var methodOverride = require("method-override");
 var cheerio = require("cheerio");
 var mongoose = require("mongoose");
 var request = require("request");
+
+// Use native promises
+mongoose.Promise = global.Promise;
+// assert.equal(query.exec().constructor, global.Promise);
 // Use bluebird
-mongoose.Promise = require('bluebird');
+// mongoose.Promise = require('bluebird');
 // assert.equal(query.exec().constructor, require('bluebird'));
 
 mongoose.connect("mongodb://localhost/newsScraper");
@@ -129,9 +133,9 @@ router.post("/", function(req, res) {
     res.redirect("/scraped");
 })
 
-router.get('/articles/:id', function(req, res) {
+router.get('/populated/:id', function(req, res) {
 
-    Article.findOne({ '_id': req.params.id })
+    Article.find({ '_id': req.params.id })
 
     .populate('comment')
 
@@ -142,7 +146,8 @@ router.get('/articles/:id', function(req, res) {
         } else {
             console.log('comment saved');
             // res.render("saved", { articles: result });
-            res.redirect('/');
+            res.json(result);
+            // res.redirect('/');
         }
     });
 
@@ -163,19 +168,17 @@ router.post('/articles/:id', function(req, res) {
             console.log(err);
         } else {
 
-            Article.findOneAndUpdate({ '_id': req.body.id }, { 'comment': result._id })
-                // execute the above query
-                .exec(function(err, result) {
-                    // log any errors
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        // or send the document to the browser
-                        // res.render("saved", { articles: result });
-                        console.log(result);
-                        res.redirect('/saved');
-                    }
-                });
+            Article.findOneAndUpdate({ '_id': req.body.id }, { $push: { 'comment': result._id } }, { new: true }, function(err, result) {
+                // log any errors
+                if (err) {
+                    console.log(err);
+                } else {
+                    // or send the document to the browser
+                    // res.render("saved", { articles: result });
+                    console.log(result);
+                    res.redirect('/saved');
+                }
+            });
         }
     });
 });
