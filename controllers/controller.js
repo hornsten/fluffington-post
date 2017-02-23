@@ -76,7 +76,7 @@ router.get("/comments/:id", function(req, res) {
 // Scrape data from one site and place it into the mongodb db
 router.get("/scraped", function(req, res) {
 
-    // Make a request for the aww section of reddit
+    // Make a request for the huffington post cute-animal page
     request("http://www.huffingtonpost.com/news/cute-animals/", function(error, response, html) {
         // Load the html body from request into cheerio
 
