@@ -187,11 +187,16 @@ router.post('/articles/:id', function(req, res) {
 router.post("/articles/one/:id", function(req, res) {
     console.log('I am in delete');
     Article.findOneAndRemove({ "_id": req.params.id }, { $push: { 'comment': Comment._id } }, function(err) {
-        if (err) return handleError(err);
-        // removed!
+        if (err) {
+            return handleError(err);
+        } else {
+
+            res.redirect('/saved');
+            console.log('removed');
+        }
+
     });
-    res.redirect('/');
-    console.log('removed');
+
 
 });
 
@@ -200,11 +205,11 @@ router.post("/comments/one/:id", function(req, res) {
     console.log('I am in delete comments!');
 
     Comment.findOneAndRemove({ "_id": req.params.id }, function(err, removed) {
-        var commentId = removed.id;
+        var removedComment = removed.id;
 
         // push remove to other linked collections
         // push to Article
-        Article.findOneAndUpdate({ 'comment': commentId }, { $pull: { 'comment': commentId } }, { new: true }, function(err, removedFromArticle) {
+        Article.findOneAndUpdate({ 'comment': removedComment }, { $pull: { 'comment': removedComment } }, { new: true }, function(err, removedFromArticle) {
             if (err) {
                 throw (err);
             } else {
