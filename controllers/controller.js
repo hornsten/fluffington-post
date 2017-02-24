@@ -13,7 +13,6 @@ var request = require("request");
 mongoose.Promise = global.Promise;
 
 var uri = "mongodb://heroku_93x5m90j:oie6nsilvllanl3mff0nr3v1a0@ds157349.mlab.com:57349/heroku_93x5m90j" || "mongodb://localhost/newsScraper";
-// mongoose.connect("mongodb://localhost/newsScraper");
 
 mongoose.connect(uri);
 
@@ -86,8 +85,8 @@ router.get("/scraped", function(req, res) {
 
             //Save the following elements
             var title = $(this).children("h3").children("a").text();
-            var link = $(this).find("a").attr("href");
-            var image = $(this).find("img").attr("longdesc");
+            var link = $(this).find("a").attr("href").replace(/^http:\/\//i, 'https://');
+            var image = $(this).find("img").attr("longdesc").replace(/^http:\/\//i, 'https://');
 
             // If this title element had both a title and a link
             if (title && link && image) {
@@ -220,15 +219,5 @@ router.post("/comments/one/:id", function(req, res) {
 
     console.log('comment removed');
 });
-
-// Comment.remove({ "_id": req.params.id }, function(err) {
-//     if (err) return handleError(err);
-//     //removed
-// })
-
-// db.collection.update({_id: ObjectId( "4f8dcb06ee21783d7400003c" )}, 
-//                      {$pull: {attendees: {_id: ObjectId( "4f8dfb06ee21783d7134503a" )}}})
-
-
 
 module.exports = router;
