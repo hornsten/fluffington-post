@@ -198,25 +198,22 @@ router.post("/articles/one/:id", function(req, res) {
 //Delete route for comments
 router.post("/comments/one/:id", function(req, res) {
     console.log('I am in delete comments!');
-    Comment.findOneAndRemove({ "_id": req.params.id }, function(err, comment) {
+
+    Comment.findOneAndRemove({ "_id": req.params.id }, function(err, removed) {
+        var commentId = removed.id;
+
         // push remove to other linked collections
         // push to Article
-        // Article.update({ 'comment': req.params.id }, { $push: { 'comment': req.params.id } }, function(err, numberAffected, raw) {
-        //         console.log("Article Model number Affected", numberAffected)
-        //     })
+        Article.findOneAndUpdate({ 'comment': commentId }, { $pull: { 'comment': commentId } }, { new: true }, function(err, removedFromArticle) {
+            if (err) {
+                throw (err);
+            } else {
 
-        // Article.comment.pull(req.params.id);
-        // Article.save(function(err) {
-        //     // embedded comment with id `my_id` removed!
-        //     console.log('Just removed comment with id of ' + req.params.id);
-        // });
-        // push to user
-        // User.update({ _id: comment._creator }, { $push: { comments: commentId } }, function(err, numberAffected, raw) {
-        //     console.log("User model numberAffected", numberAffected)
-
-        // })
+            }
+        })
     });
-    res.redirect('/');
+    res.redirect('/saved');
+
     console.log('comment removed');
 });
 
@@ -225,6 +222,8 @@ router.post("/comments/one/:id", function(req, res) {
 //     //removed
 // })
 
+// db.collection.update({_id: ObjectId( "4f8dcb06ee21783d7400003c" )}, 
+//                      {$pull: {attendees: {_id: ObjectId( "4f8dfb06ee21783d7134503a" )}}})
 
 
 
