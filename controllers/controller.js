@@ -1,13 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var Article = require("../models/article.js");
-// var Comments = require("../models/article.js");
 var Comment = require("../models/comment.js");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
-// var app = express();
 var cheerio = require("cheerio");
 var mongoose = require("mongoose");
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var request = require("request");
 
 // Use native promises
@@ -18,6 +17,7 @@ mongoose.Promise = global.Promise;
 // assert.equal(query.exec().constructor, require('bluebird'));
 
 mongoose.connect("mongodb://localhost/newsScraper");
+
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -82,17 +82,17 @@ router.get("/scraped", function(req, res) {
 
         var $ = cheerio.load(html);
         var result = [];
-        // For each element with a "title" class
+        // For each div with a class of ".entry.no_border"
         $("div.entry.no_border").each(function(i, element) {
 
-            // Save the text of each link enclosed in the current element
+            //Save the following elements
             var title = $(this).children("h3").children("a").text();
             var link = $(this).find("a").attr("href");
             var image = $(this).find("img").attr("longdesc");
 
             // If this title element had both a title and a link
             if (title && link && image) {
-
+                //push the elements as an object into the result array
                 result.push({
                     title: title,
                     link: link,
@@ -101,15 +101,14 @@ router.get("/scraped", function(req, res) {
             }
 
         });
-        console.log("you have " + result.length + " results");
 
         res.render("index", { articles: result });
     });
 
 });
 
+//allows the user to save scraped articles into the db
 router.post("/", function(req, res) {
-
 
     var art = new Article({
         title: req.body.title,
@@ -130,9 +129,12 @@ router.post("/", function(req, res) {
 
         }
     });
+    //this brings the user back to the
+    //scraped results (not empty index route) so they can browse and save more
     res.redirect("/scraped");
 })
 
+//this route is called by app.js. Grabs all comments in the array for the specified article
 router.get('/populated/:id', function(req, res) {
 
     Article.find({ '_id': req.params.id })
@@ -153,7 +155,7 @@ router.get('/populated/:id', function(req, res) {
 
 });
 
-// add or replace comment and save to db
+// add comment and push to specified article...
 router.post('/articles/:id', function(req, res) {
     // create a new comment and pass the req.body to the entry.
     var comment = new Comment({
@@ -167,15 +169,13 @@ router.post('/articles/:id', function(req, res) {
         if (err) {
             console.log(err);
         } else {
-
+            //updates the article's comments array so that the new comment is included in results
             Article.findOneAndUpdate({ '_id': req.body.id }, { $push: { 'comment': result._id } }, { new: true }, function(err, result) {
                 // log any errors
                 if (err) {
                     console.log(err);
                 } else {
-                    // or send the document to the browser
-                    // res.render("saved", { articles: result });
-                    console.log(result);
+                    //takes you back to saved results
                     res.redirect('/saved');
                 }
             });
@@ -183,19 +183,42 @@ router.post('/articles/:id', function(req, res) {
     });
 });
 
-router.delete("/articles/:id", function(req, res) {
-
-    Article.remove({ "_id": req.params.id }, function(err) {
+//Delete route for articles
+router.post("/articles/one/:id", function(req, res) {
+    console.log('I am in delete');
+    Article.findOneAndRemove({ "_id": req.params.id }, { $push: { 'comment': Comment._id } }, function(err) {
         if (err) return handleError(err);
         // removed!
     });
-    // res.redirect("/");
+    res.redirect('/');
     console.log('removed');
 
 });
 
+//Delete route for comments
+router.post("/comments/one/:id", function(req, res) {
+    console.log('I am in delete comments!');
+    Comment.findOneAndRemove({ "_id": req.params.id }, function(err, comment) {
+        // push remove to other linked collections
+        // push to Article
+        // Article.update({ 'comment': req.params.id }, { $push: { 'comment': req.params.id } }, function(err, numberAffected, raw) {
+        //         console.log("Article Model number Affected", numberAffected)
+        //     })
 
+        // Article.comment.pull(req.params.id);
+        // Article.save(function(err) {
+        //     // embedded comment with id `my_id` removed!
+        //     console.log('Just removed comment with id of ' + req.params.id);
+        // });
+        // push to user
+        // User.update({ _id: comment._creator }, { $push: { comments: commentId } }, function(err, numberAffected, raw) {
+        //     console.log("User model numberAffected", numberAffected)
 
+        // })
+    });
+    res.redirect('/');
+    console.log('comment removed');
+});
 
 // Comment.remove({ "_id": req.params.id }, function(err) {
 //     if (err) return handleError(err);
