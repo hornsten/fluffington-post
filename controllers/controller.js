@@ -16,7 +16,9 @@ mongoose.Promise = global.Promise;
 // mongoose.Promise = require('bluebird');
 // assert.equal(query.exec().constructor, require('bluebird'));
 
-mongoose.connect("mongodb://localhost/newsScraper");
+// mongoose.connect("mongodb://localhost/newsScraper");
+
+mongoose.connect("mongodb://heroku_93x5m90j:oie6nsilvllanl3mff0nr3v1a0@ds157349.mlab.com:57349/heroku_93x5m90j");
 
 var db = mongoose.connection;
 
