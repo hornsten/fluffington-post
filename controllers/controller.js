@@ -11,14 +11,11 @@ var request = require("request");
 
 // Use native promises
 mongoose.Promise = global.Promise;
-// assert.equal(query.exec().constructor, global.Promise);
-// Use bluebird
-// mongoose.Promise = require('bluebird');
-// assert.equal(query.exec().constructor, require('bluebird'));
 
+var uri = "mongodb://heroku_93x5m90j:oie6nsilvllanl3mff0nr3v1a0@ds157349.mlab.com:57349/heroku_93x5m90j" || "mongodb://localhost/newsScraper";
 // mongoose.connect("mongodb://localhost/newsScraper");
 
-mongoose.connect("mongodb://heroku_93x5m90j:oie6nsilvllanl3mff0nr3v1a0@ds157349.mlab.com:57349/heroku_93x5m90j");
+mongoose.connect(uri);
 
 var db = mongoose.connection;
 
