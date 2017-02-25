@@ -1,4 +1,4 @@
-# :newspaper: The Fluffington Post :panda_face: :hamster: :dog:
+# :newspaper: The Fluffington Post :panda_face: :hamster: :dog: /play ohmy
 A Cheerio/Mongoose/Express News Scraper that delivers only the fluffiest news to your screen.
 
 ## Table of Contents
