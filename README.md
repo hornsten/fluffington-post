@@ -8,7 +8,7 @@ A Cheerio/Mongoose/Express News Scraper that delivers only the fluffiest news to
 - [Comments](#comments)
 
 ## Home Page
-* Click the button to scrape new articles from The Huffington Post Cute-Animal News
+* Scrape new articles from The Huffington Post Cute-Animal News
 * Click image to read the full article
 * Save Scraped Articles
 
@@ -23,7 +23,7 @@ A Cheerio/Mongoose/Express News Scraper that delivers only the fluffiest news to
 
 ## Comments
 * Make comments and read the comments of others
-* Delete comments, if you wish
+* Delete comments if you wish
 
 ![comments](/public/img/comment-modal.png?raw=true "Comments")
 
@@ -37,6 +37,6 @@ A Cheerio/Mongoose/Express News Scraper that delivers only the fluffiest news to
 - Body Parser
 - Method Override
 
-## Next Steps
-* Add additional topics, more sources, filtering capabilities
-* Add user authentication
+## Possible Next Steps
+* Additional topics and news sources, filtering capabilities
+* User authentication
