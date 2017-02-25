@@ -21,7 +21,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     // we're connected!
-    console.log('We are connected!');
+    console.log('We are connected to db!');
 });
 
 router.get("/", function(req, res) {
@@ -36,12 +36,13 @@ router.get("/saved", function(req, res) {
         if (err) {
             return handleError(err);
         } else {
-            // res.json(articles);
+
             res.render("saved", { articles: articles });
         }
     });
 });
 
+//Get all comments
 router.get("/comments", function(req, res) {
     var query = Comment.find({});
 
@@ -55,6 +56,7 @@ router.get("/comments", function(req, res) {
     })
 })
 
+//Find comment by id
 router.get("/comments/:id", function(req, res) {
 
     Comment.findOne({ '_id': req.params.id })
@@ -71,10 +73,10 @@ router.get("/comments/:id", function(req, res) {
     });
 })
 
-// Scrape data from one site and place it into the mongodb db
+// Scrape data from one site and place it into the mongo db
 router.get("/scraped", function(req, res) {
 
-    // Make a request for the huffington post cute-animal page
+    // Make a request for The Huffington Post cute animal page
     request("http://www.huffingtonpost.com/news/cute-animals/", function(error, response, html) {
         // Load the html body from request into cheerio
 
@@ -83,12 +85,12 @@ router.get("/scraped", function(req, res) {
         // For each div with a class of ".entry.no_border"
         $("div.entry.no_border").each(function(i, element) {
 
-            //Save the following elements
+            //Find the following elements
             var title = $(this).children("h3").children("a").text();
             var link = $(this).find("a").attr("href").replace(/^http:\/\//i, 'https://');
             var image = $(this).find("img").attr("longdesc").replace(/^http:\/\//i, 'https://');
 
-            // If this title element had both a title and a link
+            // If this div has all three components
             if (title && link && image) {
                 //push the elements as an object into the result array
                 result.push({
@@ -122,17 +124,15 @@ router.post("/", function(req, res) {
         }
         // Otherwise,
         else {
-            // Log the saved data
-            console.log(art);
-
+            //log results
         }
     });
-    //this brings the user back to the
-    //scraped results (not empty index route) so they can browse and save more
+    //this brings the user back to the scraped results (not root page) so they can browse and save more
     res.redirect("/scraped");
+
 })
 
-//this route is called by app.js. Grabs all comments in the array for the specified article
+//this route is called by app.js. Grabs all comments in the comment array for the specified article
 router.get('/populated/:id', function(req, res) {
 
     Article.find({ '_id': req.params.id })
@@ -144,10 +144,8 @@ router.get('/populated/:id', function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            console.log('comment saved');
-            // res.render("saved", { articles: result });
+
             res.json(result);
-            // res.redirect('/');
         }
     });
 
@@ -183,14 +181,13 @@ router.post('/articles/:id', function(req, res) {
 
 //Delete route for articles
 router.post("/articles/one/:id", function(req, res) {
-    console.log('I am in delete');
+
     Article.findOneAndRemove({ "_id": req.params.id }, { $push: { 'comment': Comment._id } }, function(err) {
         if (err) {
             return handleError(err);
         } else {
 
             res.redirect('/saved');
-            console.log('removed');
         }
 
     });
@@ -200,13 +197,11 @@ router.post("/articles/one/:id", function(req, res) {
 
 //Delete route for comments
 router.post("/comments/one/:id", function(req, res) {
-    console.log('I am in delete comments!');
 
     Comment.findOneAndRemove({ "_id": req.params.id }, function(err, removed) {
         var removedComment = removed.id;
 
-        // push remove to other linked collections
-        // push to Article
+        //also remove this comment from the corresponding article
         Article.findOneAndUpdate({ 'comment': removedComment }, { $pull: { 'comment': removedComment } }, { new: true }, function(err, removedFromArticle) {
             if (err) {
                 throw (err);

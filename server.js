@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var exphbs = require("express-handlebars");
 var Handlebars = require("handlebars");
 
+//This is a custom helper. I used it to group my thumbnails 3 to a row
 Handlebars.registerHelper('grouped_each', function(every, context, options) {
     var out = "",
         subcontext = [],
