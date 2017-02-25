@@ -1,0 +1,64 @@
+<div class="jumbotron">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" id="logo" href="/">F</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="/">Home<span class="sr-only">(current)</span></a>
+          </li>
+          <li><a href="/saved">Saved Articles</a></li>
+        </ul>
+        <form class="navbar-form navbar-left">
+          <a href="/scraped" class="btn btn-info">Scrape New Articles</a>
+        </form>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+  <div class="container text-center">
+    <h1 class="shadow">The Fluffington Post</h1>
+    <p class="shadow-lite">"All the News That's Fit to Snuggle"</p>
+  </div>
+</div>
+<div class="container">
+  {{#if article.length}}
+  <div id="length-alert" class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>You've found {{article.length}} articles.</div>
+  {{else}}
+  <div id="length-alert" class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>No articles yet. Why don't you try <a href="/scraped" class="alert-link">scraping some articles!</a></div>
+  {{/if}} {{#grouped_each 3 articles}}
+  <div class="row">
+    {{#each this}}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <a target="_blank" href={{this.link}}><img src="{{this.image}}" /></a>
+        <div class="caption">
+          <h3>{{this.title}}</h3>
+          <form method="POST" action="/">
+            <input type="hidden" name="title" value="{{this.title}}">
+            <input type="hidden" name="link" value="{{this.link}}">
+            <input type="hidden" name="image" value="{{this.image}}">
+            <br>
+            <button class="btn btn-info" type="submit">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/grouped_each}}
+</div>
+</div>
