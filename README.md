@@ -15,7 +15,7 @@ A Cheerio/Mongoose/Express News Scraper that delivers only the fluffiest news to
 ![home page](public/img/home-screen.png?raw=true "Home Page")
 
 ## Saved Articles
-* View Your saved articles
+* View your saved articles
 * Delete articles you don't like, and scrape some more!
 
 
