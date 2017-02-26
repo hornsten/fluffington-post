@@ -32,7 +32,15 @@ $(document).ready(function() {
 
         })
 
-        $('#modal-' + articleId).modal('show');
+        $('#modal-' + articleId).modal({ 'backdrop': 'static' });
+    });
+
+    $('.btn').on('click', function() {
+        var $this = $(this);
+        $this.button('loading');
+        setTimeout(function() {
+            $this.button('reset');
+        }, 6000);
     });
 
 });

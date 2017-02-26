@@ -20,23 +20,22 @@
           <li><a href="/saved">Saved Articles</a></li>
         </ul>
         <form class="navbar-form navbar-left">
-          <a href="/scraped" class="btn btn-info">Scrape New Articles</a>
+          <a href="/scraped" class="btn btn-info" id="load" data-loading-text="<i class='fa fa-spinner fa-spin'></i>Scraping">Scrape New Articles</a>
         </form>
       </div>
       <!-- /.navbar-collapse -->
     </div>
     <!-- /.container-fluid -->
   </nav>
-  <div class="container text-center">
-    <h1 class="shadow">The Fluffington Post</h1>
-    <p class="shadow-lite">"All the News That's Fit to Snuggle"</p>
+  <div class=" container text-center ">
+    <h1 class="shadow ">The Fluffington Post</h1>
+    <p class="shadow-lite ">"All the News That 's Fit to Snuggle"</p>
   </div>
 </div>
 <div class="container">
   {{#if articles.length}}
   <div id="length-alert" class="alert alert-info alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>You've found {{articles.length}} articles.</div>
-  {{else}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>You've found {{articles.length}} articles.</div> {{else}}
   <div id="length-alert" class="alert alert-info alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>No articles yet. Why don't you try <a href="/scraped" class="alert-link">scraping some articles!</a></div>
   {{/if}} {{#grouped_each 3 articles}}
@@ -52,7 +51,7 @@
             <input type="hidden" name="link" value="{{this.link}}">
             <input type="hidden" name="image" value="{{this.image}}">
             <br>
-            <button class="btn btn-info" type="submit">Save</button>
+            <button class="btn btn-info" data-loading-text="<i class='fa fa-spinner fa-spin'></i>Saving" type="submit">Save</button>
           </form>
         </div>
       </div>

@@ -151,23 +151,6 @@ router.get('/populated/:id', function(req, res) {
 
 });
 
-//Full page of single saved article w comments
-router.get('/article/show/:id', function(req, res) {
-
-    Article.find({ '_id': req.params.id })
-
-    .populate('comment')
-
-    .exec(function(err, result) {
-
-        if (err) {
-            console.log(err);
-            return;
-        }
-        res.render('show', { article: result });
-
-    })
-})
 
 // add comment and push to specified article...
 router.post('/articles/:id', function(req, res) {
@@ -183,12 +166,14 @@ router.post('/articles/:id', function(req, res) {
         if (err) {
             console.log(err);
         } else {
+
             //updates the article's comments array so that the new comment is included in results
             Article.findOneAndUpdate({ '_id': req.body.id }, { $push: { 'comment': result._id } }, { new: true }, function(err, result) {
                 // log any errors
                 if (err) {
                     console.log(err);
                 } else {
+
                     //takes you back to saved results
                     res.redirect('/saved');
                 }

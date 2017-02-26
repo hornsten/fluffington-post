@@ -50,13 +50,13 @@
           <p><a data-button="{{this._id}}" class="btn btn-info comment-btn">Comments</a>
             <form action="/articles/one/{{this._id}}" method="POST">
               <input type="hidden" name="id" value="{{this.id}}">
-              <button class="btn btn-yellow" type="submit">Delete</button>
+              <button class="btn btn-yellow" data-loading-text="<i class='fa fa-spinner fa-spin'></i>Deleting" type="submit">Delete</button>
             </form>
           </p>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="modal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" data-backdrop="static" id="modal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content modal-lg">
           <div class="modal-header">
@@ -71,11 +71,11 @@
               <br>
               <input required class="form-control" type="textarea" placeholder="Comment" name="body">
               <br>
-              <button id="submit-comment" class="btn btn-info" type="submit">Add a comment</button>
+              <button id="submit-comment" class="btn btn-info" data-loading-text="<i class='fa fa-spinner fa-spin'></i>Adding Comment" type="submit">Add a comment</button>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" id="close-{{this._id}}" class="btn btn-yellow" data-dismiss="modal">Close</button>
+            <button type="button" id="close-{{this._id}}" data-loading-text="<i class='fa fa-spinner fa-spin'></i>Closing" class="btn btn-yellow" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
